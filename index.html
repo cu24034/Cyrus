@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Day Choice Game</title>
+<title>Day Planner</title>
 
 <link rel="stylesheet" href="style.css">
 </head>
@@ -12,12 +12,183 @@
 
 <div class="container">
 
-<h1 class="title">🌅 Day Choice Game</h1>
+<header>
+  <div>
+    <h2>🌅 Day Planner</h2>
+    <p>Decision-making life simulation game</p>
+  </div>
 
-<div class="card" id="gameBox">
-  <h2>Start your day</h2>
-  <button onclick="startGame()">Begin</button>
-</div>
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#gameplay">Gameplay</a>
+    <a href="#choices">Choices</a>
+    <a href="#endings">Endings</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+  <h1>
+    One day.<br>
+    Many choices.<br>
+    <span>Different outcomes.</span>
+  </h1>
+
+  <p>
+    Day Planner is a decision-making game where every choice affects your Stress,
+    Energy, and Grades across a full day.
+  </p>
+
+  <div class="buttons">
+    <button class="primary-btn" onclick="startGame()">Start Simulation</button>
+    <button class="secondary-btn" onclick="showInfo()">How it works</button>
+  </div>
+
+  <div id="game-output"></div>
+
+</section>
+
+---
+
+<!-- OVERVIEW -->
+<section class="info" id="overview">
+  <h2>Game Overview</h2>
+  <p>
+    Day Planner is a decision-based simulation game where players experience one full day.
+    Every decision affects Stress, Energy, and Grades. The goal is to balance all three while
+    dealing with random events and time-based choices.
+  </p>
+</section>
+
+---
+
+<!-- GAMEPLAY -->
+<section class="info" id="gameplay">
+  <h2>Gameplay</h2>
+
+  <p>
+    The game is split into four phases of the day:
+  </p>
+
+  <ul>
+    <li>Morning</li>
+    <li>School</li>
+    <li>Afternoon</li>
+    <li>Night</li>
+  </ul>
+
+  <p>
+    Each phase gives you choices that affect your stats and future events.
+  </p>
+</section>
+
+---
+
+<!-- CHOICES -->
+<section class="info" id="choices">
+  <h2>Example Choices</h2>
+
+  <h3>Morning</h3>
+  <p>Sleep in, Wake up early, Eat breakfast, Check phone, Exercise</p>
+
+  <h3>School</h3>
+  <p>Focus in class, Talk to friends, Skip homework, Study, Use phone</p>
+
+  <h3>Afternoon</h3>
+  <p>Study, Play games, Go outside, Spend time with friends, Nap</p>
+
+  <h3>Night</h3>
+  <p>Stay up late, Finish homework, Watch videos, Sleep early, Prepare tomorrow</p>
+</section>
+
+---
+
+<!-- RANDOM EVENTS -->
+<section class="info">
+  <h2>Random Events</h2>
+
+  <ul>
+    <li>Surprise test at school</li>
+    <li>Friend invites you out</li>
+    <li>Extra homework assigned</li>
+    <li>Bad weather increases stress</li>
+    <li>Phone battery dies</li>
+    <li>Oversleeping</li>
+  </ul>
+</section>
+
+---
+
+<!-- STATS -->
+<section class="stats-section">
+  <h2>Stats System</h2>
+
+  <div class="stats">
+
+    <div class="card">
+      <div class="bar red"></div>
+      <h3>Stress</h3>
+      <p>Lower is better</p>
+    </div>
+
+    <div class="card">
+      <div class="bar green"></div>
+      <h3>Energy</h3>
+      <p>Needed for actions</p>
+    </div>
+
+    <div class="card">
+      <div class="bar blue"></div>
+      <h3>Grades</h3>
+      <p>Long-term success</p>
+    </div>
+
+  </div>
+</section>
+
+---
+
+<!-- VISUAL DESIGN -->
+<section class="info">
+  <h2>Visual Design</h2>
+
+  <ul>
+    <li>Time-based background changes</li>
+    <li>Simple animations for choices</li>
+    <li>Icons for actions (sleep, phone, books, etc.)</li>
+    <li>Colour changes based on stress levels</li>
+    <li>Clean modern UI style</li>
+  </ul>
+</section>
+
+---
+
+<!-- ENDINGS -->
+<section class="endings" id="endings">
+
+  <h2>Endings</h2>
+
+  <div class="ending-grid">
+
+    <div class="ending">🌿 Balanced Day</div>
+    <div class="ending">🥵 Burnout Day</div>
+    <div class="ending">🌀 Unproductive Day</div>
+    <div class="ending">🤝 Social Day</div>
+
+  </div>
+
+  <p style="margin-top:20px; color:#6b7280;">
+    Your ending depends on how you manage your stats throughout the day.
+  </p>
+
+</section>
+
+---
+
+<footer>
+  <p>Day Planner — A simulation of how daily choices affect outcomes.</p>
+</footer>
 
 </div>
 
@@ -25,113 +196,35 @@
 let stress = 50;
 let energy = 50;
 let grades = 50;
-let stage = 0;
-
-const stages = [
-  {
-    time: "Wake up",
-    options: [
-      { text: "Sleep in", s:10, e:5, g:-5 },
-      { text: "Wake up early", s:-5, e:-10, g:5 }
-    ]
-  },
-  {
-    time: "10am",
-    options: [
-      { text: "Go to school focused", s:-5, e:-5, g:10 },
-      { text: "Skip / distract yourself", s:10, e:5, g:-10 }
-    ]
-  },
-  {
-    time: "12pm",
-    options: [
-      { text: "Eat healthy lunch", s:-5, e:10, g:5 },
-      { text: "Eat junk food", s:5, e:5, g:0 }
-    ]
-  },
-  {
-    time: "3pm",
-    options: [
-      { text: "Study", s:5, e:-10, g:15 },
-      { text: "Play games", s:10, e:5, g:-10 }
-    ]
-  },
-  {
-    time: "6pm",
-    options: [
-      { text: "Exercise", s:-10, e:10, g:5 },
-      { text: "Scroll phone", s:5, e:-5, g:-5 }
-    ]
-  },
-  {
-    time: "11pm",
-    options: [
-      { text: "Sleep early", s:-10, e:20, g:5 },
-      { text: "Stay up late", s:10, e:-15, g:-5 }
-    ]
-  }
-];
 
 function startGame(){
-  stage = 0;
-  stress = 50;
-  energy = 50;
-  grades = 50;
-  nextStage();
-}
 
-function nextStage(){
+  const events = [
+    "You woke up early and feel focused.",
+    "You slept in and feel rushed.",
+    "You studied hard and improved your grades.",
+    "You got distracted by your phone.",
+    "A surprise test increased stress."
+  ];
 
-  if(stage >= stages.length){
-    endGame();
-    return;
-  }
+  const event = events[Math.floor(Math.random() * events.length)];
 
-  let current = stages[stage];
+  document.getElementById("game-output").style.display = "block";
 
-  document.getElementById("gameBox").innerHTML = `
-    <h2>${current.time}</h2>
-
-    ${current.options.map((o,i)=>`
-      <button onclick="choose(${i})">${o.text}</button>
-    `).join("")}
-
-    <div class="stats">
-      Stress: ${stress} | Energy: ${energy} | Grades: ${grades}
-    </div>
+  document.getElementById("game-output").innerHTML = `
+    <h2>Day Started</h2>
+    <p>${event}</p>
+    <br>
+    <p>
+      Stress: ${Math.floor(Math.random()*100)}<br>
+      Energy: ${Math.floor(Math.random()*100)}<br>
+      Grades: ${Math.floor(Math.random()*100)}
+    </p>
   `;
 }
 
-function choose(i){
-  let option = stages[stage].options[i];
-
-  stress += option.s;
-  energy += option.e;
-  grades += option.g;
-
-  stress = Math.max(0, Math.min(100, stress));
-  energy = Math.max(0, Math.min(100, energy));
-  grades = Math.max(0, Math.min(100, grades));
-
-  stage++;
-  nextStage();
-}
-
-function endGame(){
-
-  let ending = "";
-
-  if(stress >= 80) ending += "🔥 Burnout Ending<br>";
-  if(energy <= 20) ending += "😴 Exhausted Ending<br>";
-  if(grades >= 80) ending += "🎓 Academic Ending<br>";
-
-  if(ending === "") ending = "🌿 Balanced Day";
-
-  document.getElementById("gameBox").innerHTML = `
-    <h2>Day Finished</h2>
-    <p>${ending}</p>
-    <button onclick="startGame()">Play Again</button>
-  `;
+function showInfo(){
+  alert("Make choices during the day. Each one changes your stats and ending.");
 }
 </script>
 
