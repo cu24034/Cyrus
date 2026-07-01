@@ -5,54 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Day Choice Game</title>
 
-<style>
-body{
-  font-family: Arial, sans-serif;
-  background:#f4f7fb;
-  margin:0;
-  padding:0;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:30px;
-}
-
-.card{
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
-  margin-top:20px;
-}
-
-button{
-  display:block;
-  width:100%;
-  margin:10px 0;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-button:hover{
-  opacity:0.85;
-}
-
-.title{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.stats{
-  margin-top:15px;
-  font-size:14px;
-  color:#555;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -72,50 +25,49 @@ button:hover{
 let stress = 50;
 let energy = 50;
 let grades = 50;
-
 let stage = 0;
 
 const stages = [
   {
     time: "Wake up",
     options: [
-      { text: "Sleep in", s:+10, e:+5, g:-5 },
-      { text: "Wake up early", s:-5, e:-10, g:+5 }
+      { text: "Sleep in", s:10, e:5, g:-5 },
+      { text: "Wake up early", s:-5, e:-10, g:5 }
     ]
   },
   {
     time: "10am",
     options: [
-      { text: "Go to school focused", s:-5, e:-5, g:+10 },
-      { text: "Skip / distract yourself", s:+10, e:+5, g:-10 }
+      { text: "Go to school focused", s:-5, e:-5, g:10 },
+      { text: "Skip / distract yourself", s:10, e:5, g:-10 }
     ]
   },
   {
     time: "12pm",
     options: [
-      { text: "Eat healthy lunch", s:-5, e:+10, g:+5 },
-      { text: "Eat junk food", s:+5, e:+5, g:0 }
+      { text: "Eat healthy lunch", s:-5, e:10, g:5 },
+      { text: "Eat junk food", s:5, e:5, g:0 }
     ]
   },
   {
     time: "3pm",
     options: [
-      { text: "Study", s:+5, e:-10, g:+15 },
-      { text: "Play games", s:+10, e:+5, g:-10 }
+      { text: "Study", s:5, e:-10, g:15 },
+      { text: "Play games", s:10, e:5, g:-10 }
     ]
   },
   {
     time: "6pm",
     options: [
-      { text: "Exercise", s:-10, e:+10, g:+5 },
-      { text: "Scroll phone", s:+5, e:-5, g:-5 }
+      { text: "Exercise", s:-10, e:10, g:5 },
+      { text: "Scroll phone", s:5, e:-5, g:-5 }
     ]
   },
   {
     time: "11pm",
     options: [
-      { text: "Sleep early", s:-10, e:+20, g:+5 },
-      { text: "Stay up late", s:+10, e:-15, g:-5 }
+      { text: "Sleep early", s:-10, e:20, g:5 },
+      { text: "Stay up late", s:10, e:-15, g:-5 }
     ]
   }
 ];
@@ -157,16 +109,12 @@ function choose(i){
   energy += option.e;
   grades += option.g;
 
-  clamp();
-
-  stage++;
-  nextStage();
-}
-
-function clamp(){
   stress = Math.max(0, Math.min(100, stress));
   energy = Math.max(0, Math.min(100, energy));
   grades = Math.max(0, Math.min(100, grades));
+
+  stage++;
+  nextStage();
 }
 
 function endGame(){
@@ -177,12 +125,11 @@ function endGame(){
   if(energy <= 20) ending += "😴 Exhausted Ending<br>";
   if(grades >= 80) ending += "🎓 Academic Ending<br>";
 
-  if(ending === "") ending = "🌿 Balanced Normal Day";
+  if(ending === "") ending = "🌿 Balanced Day";
 
   document.getElementById("gameBox").innerHTML = `
     <h2>Day Finished</h2>
     <p>${ending}</p>
-    <br>
     <button onclick="startGame()">Play Again</button>
   `;
 }
