@@ -1,249 +1,340 @@
-```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Day Planner</title>
+
+<style>
+:root{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --primary:#4f46e5;
+  --text:#111827;
+  --muted:#6b7280;
+  --stress:#ef4444;
+  --energy:#22c55e;
+  --grades:#3b82f6;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:30px;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
+}
+
+nav a{
+  margin-left:20px;
+  text-decoration:none;
+  color:var(--muted);
+  font-weight:bold;
+}
+
+nav a:hover{
+  color:var(--primary);
+}
+
+.hero{
+  background:white;
+  padding:50px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.hero h1{
+  font-size:60px;
+  margin-bottom:20px;
+}
+
+.hero span{
+  color:var(--primary);
+}
+
+.hero p{
+  max-width:700px;
+  color:var(--muted);
+  margin-bottom:30px;
+}
+
+.buttons{
+  display:flex;
+  gap:15px;
+  margin-bottom:30px;
+}
+
+button{
+  border:none;
+  padding:14px 24px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.primary-btn{
+  background:var(--primary);
+  color:white;
+}
+
+.secondary-btn{
+  background:#e5e7eb;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#f9fafb;
+  padding:20px;
+  border-radius:15px;
+}
+
+.bar{
+  height:10px;
+  border-radius:20px;
+  margin-bottom:10px;
+}
+
+.red{background:var(--stress);}
+.green{background:var(--energy);}
+.blue{background:var(--grades);}
+
+.phases{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  margin-top:50px;
+}
+
+.phase-card{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.endings{
+  margin-top:60px;
+  background:white;
+  padding:40px;
+  border-radius:20px;
+}
+
+.ending-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+
+.ending{
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:20px;
+  text-align:center;
+  font-size:18px;
+}
+
+#game-output{
+  margin-top:30px;
+  padding:20px;
+  background:#eef2ff;
+  border-radius:15px;
+  display:none;
+}
+
+footer{
+  margin-top:50px;
+  text-align:center;
+  color:var(--muted);
+}
 </style>
-<script defer src="/__l5e/events.js" data-artifact-kind="static_preview" data-artifact-id="b3e1c303bd2d909fea8bf3e6bb56ddcaf93fee3c" data-commit-sha="b3e1c303bd2d909fea8bf3e6bb56ddcaf93fee3c" data-context-token="v1.eyJwcm9qZWN0X2lkIjoiNmYyNTIyN2ItYWVjNi00YjJhLTliNGMtYWNhNTcwZjRiYjQ2IiwiYXJ0aWZhY3Rfa2luZCI6InN0YXRpY19wcmV2aWV3IiwiYXJ0aWZhY3RfaWQiOiJiM2UxYzMwM2JkMmQ5MDlmZWE4YmYzZTZiYjU2ZGRjYWY5M2ZlZTNjIiwiY29tbWl0X3NoYSI6ImIzZTFjMzAzYmQyZDkwOWZlYThiZjNlNmJiNTZkZGNhZjkzZmVlM2MiLCJleHAiOjE3ODI3ODk1NzN9.PiIULMmFcRyDzZfQLr385I31I-LmesYABe-A8Aebnhc" data-track-url="/__l5e/trackevents?__lovable_sha=b3e1c303bd2d909fea8bf3e6bb56ddcaf93fee3c"></script>
 </head>
 
 <body>
-<!--$-->
-<main class="min-h-screen transition-[background] duration-700" style="background:var(--sky-morning)">
-<div class="mx-auto max-w-5xl px-5 py-8 md:py-12">
 
-<header class="mb-8 flex items-center justify-between">
-<div class="flex items-center gap-3">
-<div class="grid h-10 w-10 place-items-center rounded-xl bg-card shadow-[var(--shadow-card)]">
-<span class="text-xl">🌅</span>
-</div>
+<div class="container">
 
-<div>
-<div class="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-Day Planner
-</div>
+<header>
+  <div>
+    <h2>🌅 Day Planner</h2>
+    <p>Make every hour count.</p>
+  </div>
 
-<div class="text-sm font-semibold">
-Make every hour count.
-</div>
-</div>
-</div>
-
-<nav class="hidden gap-6 text-sm text-muted-foreground md:flex">
-<a href="#how" class="hover:text-foreground">How it works</a>
-<a href="#endings" class="hover:text-foreground">Endings</a>
-<a href="#about" class="hover:text-foreground">About</a>
-</nav>
+  <nav>
+    <a href="#how">How it works</a>
+    <a href="#endings">Endings</a>
+    <a href="#about">About</a>
+  </nav>
 </header>
 
-<section class="anim-float">
+<section class="hero">
 
-<div class="rounded-3xl bg-card p-8 shadow-[var(--shadow-card)] md:p-14">
+  <h1>
+    One day.<br>
+    <span>A hundred</span> tiny choices.
+  </h1>
 
-<span class="inline-block rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">
-Interactive · Plays in your browser
-</span>
+  <p>
+    Step through morning, school, afternoon, and night.
+    Every click changes your Stress, Energy, and Grades.
+  </p>
 
-<h1 class="mt-5 text-5xl leading-[1.05] md:text-7xl">
-One day.<br/>
-<span style="color:var(--primary)">A hundred</span> tiny choices.
-</h1>
+  <div class="buttons">
+    <button class="primary-btn" onclick="startGame()">
+      Start your day →
+    </button>
 
-<p class="mt-6 max-w-xl text-lg text-muted-foreground">
-Step through morning, school, afternoon, and night.
-Every click shifts your
-<b class="text-foreground">Stress</b>,
-<b class="text-foreground">Energy</b>,
-and
-<b class="text-foreground">Grades</b>.
-Random events keep no two days the same.
-</p>
+    <button class="secondary-btn" onclick="showInfo()">
+      How it works
+    </button>
+  </div>
 
-<div class="mt-8 flex flex-wrap gap-3">
-<button class="rounded-xl bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:translate-y-[-1px] hover:brightness-110">
-Start your day →
-</button>
+  <div class="stats">
 
-<a href="#how" class="rounded-xl border border-border bg-background/60 px-6 py-3 text-base font-semibold backdrop-blur transition hover:bg-background">
-How it works
-</a>
-</div>
+    <div class="card">
+      <div class="bar red"></div>
+      <h3>Stress</h3>
+      <p>Lower is healthier</p>
+    </div>
 
-<div class="mt-10 grid gap-4 sm:grid-cols-3">
+    <div class="card">
+      <div class="bar green"></div>
+      <h3>Energy</h3>
+      <p>Fuel for the day</p>
+    </div>
 
-<div class="rounded-2xl border bg-background/50 p-4">
-<div class="mb-2 h-2 rounded-full" style="background:var(--stress)"></div>
-<div class="font-semibold">Stress</div>
-<div class="text-sm text-muted-foreground">Lower is healthier</div>
-</div>
+    <div class="card">
+      <div class="bar blue"></div>
+      <h3>Grades</h3>
+      <p>Long-term outcomes</p>
+    </div>
 
-<div class="rounded-2xl border bg-background/50 p-4">
-<div class="mb-2 h-2 rounded-full" style="background:var(--energy)"></div>
-<div class="font-semibold">Energy</div>
-<div class="text-sm text-muted-foreground">Fuel for the day</div>
-</div>
+  </div>
 
-<div class="rounded-2xl border bg-background/50 p-4">
-<div class="mb-2 h-2 rounded-full" style="background:var(--grades)"></div>
-<div class="font-semibold">Grades</div>
-<div class="text-sm text-muted-foreground">Long-term outcomes</div>
-</div>
-
-</div>
-</div>
-
-<section id="how" class="mt-14 grid gap-6 md:grid-cols-4">
-
-<div class="rounded-2xl bg-card p-5 shadow-[var(--shadow-card)]">
-<div class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Phase 1</div>
-<div class="mt-1 text-xl font-semibold" style="font-family:Fraunces, Georgia, serif">Morning</div>
-<div class="text-sm text-muted-foreground">07:00</div>
-<p class="mt-3 text-sm">5 choices · plus possible surprise events.</p>
-</div>
-
-<div class="rounded-2xl bg-card p-5 shadow-[var(--shadow-card)]">
-<div class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Phase 2</div>
-<div class="mt-1 text-xl font-semibold" style="font-family:Fraunces, Georgia, serif">At School</div>
-<div class="text-sm text-muted-foreground">10:30</div>
-<p class="mt-3 text-sm">5 choices · plus possible surprise events.</p>
-</div>
-
-<div class="rounded-2xl bg-card p-5 shadow-[var(--shadow-card)]">
-<div class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Phase 3</div>
-<div class="mt-1 text-xl font-semibold" style="font-family:Fraunces, Georgia, serif">Afternoon</div>
-<div class="text-sm text-muted-foreground">15:45</div>
-<p class="mt-3 text-sm">5 choices · plus possible surprise events.</p>
-</div>
-
-<div class="rounded-2xl bg-card p-5 shadow-[var(--shadow-card)]">
-<div class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Phase 4</div>
-<div class="mt-1 text-xl font-semibold" style="font-family:Fraunces, Georgia, serif">Night</div>
-<div class="text-sm text-muted-foreground">22:30</div>
-<p class="mt-3 text-sm">5 choices · plus possible surprise events.</p>
-</div>
+  <div id="game-output"></div>
 
 </section>
 
-<section id="endings" class="mt-14 rounded-3xl bg-card p-8 shadow-[var(--shadow-card)] md:p-12">
+<section class="phases" id="how">
 
-<h2 class="text-3xl">Five possible endings.</h2>
+  <div class="phase-card">
+    <h3>Morning</h3>
+    <p>07:00</p>
+    <p>Wake up choices and routines.</p>
+  </div>
 
-<p class="mt-2 max-w-2xl text-muted-foreground">
-Your final Stress, Energy, and Grades decide which version of the day you lived.
-Each ending comes with a short reflection and honest advice for tomorrow.
-</p>
+  <div class="phase-card">
+    <h3>At School</h3>
+    <p>10:30</p>
+    <p>Study, friends, and focus.</p>
+  </div>
 
-<div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+  <div class="phase-card">
+    <h3>Afternoon</h3>
+    <p>15:45</p>
+    <p>Activities and free time.</p>
+  </div>
 
-<div class="rounded-xl border p-4 text-center">
-<div class="text-3xl">🌿</div>
-<div class="mt-1 text-sm font-semibold">Balanced</div>
-</div>
-
-<div class="rounded-xl border p-4 text-center">
-<div class="text-3xl">🥵</div>
-<div class="mt-1 text-sm font-semibold">Burnout</div>
-</div>
-
-<div class="rounded-xl border p-4 text-center">
-<div class="text-3xl">🌀</div>
-<div class="mt-1 text-sm font-semibold">Unproductive</div>
-</div>
-
-<div class="rounded-xl border p-4 text-center">
-<div class="text-3xl">🤝</div>
-<div class="mt-1 text-sm font-semibold">Social</div>
-</div>
-
-<div class="rounded-xl border p-4 text-center">
-<div class="text-3xl">🌤️</div>
-<div class="mt-1 text-sm font-semibold">Ordinary</div>
-</div>
-
-</div>
-</section>
+  <div class="phase-card">
+    <h3>Night</h3>
+    <p>22:30</p>
+    <p>Sleep and final decisions.</p>
+  </div>
 
 </section>
 
-<footer id="about" class="mt-16 border-t pt-6 text-sm text-muted-foreground">
-<p>
-<b class="text-foreground">Day Planner</b>
-is a small interactive piece about how everyday decisions add up.
-No accounts, no tracking — just one day, replayed however you like.
-</p>
+<section class="endings" id="endings">
+
+  <h2>Five possible endings</h2>
+
+  <div class="ending-grid">
+
+    <div class="ending">🌿 Balanced</div>
+    <div class="ending">🥵 Burnout</div>
+    <div class="ending">🌀 Unproductive</div>
+    <div class="ending">🤝 Social</div>
+    <div class="ending">🌤️ Ordinary</div>
+
+  </div>
+
+</section>
+
+<footer id="about">
+  <p>
+    Day Planner is a simple interactive game about how daily
+    choices shape your future.
+  </p>
 </footer>
 
 </div>
-</main>
 
 <script>
-(function(t){
-let s;
+let stress = 50;
+let energy = 50;
+let grades = 50;
 
-try{
-s=JSON.parse(sessionStorage.getItem(t.storageKey)||"{}")
-}catch(e){
-console.error(e);
-return
+function startGame(){
+
+  const events = [
+    "You woke up early and felt productive.",
+    "You skipped breakfast and lost energy.",
+    "You studied hard and improved your grades.",
+    "You spent time with friends and reduced stress.",
+    "You stayed up too late gaming."
+  ];
+
+  const randomEvent =
+    events[Math.floor(Math.random() * events.length)];
+
+  document.getElementById("game-output").style.display = "block";
+
+  document.getElementById("game-output").innerHTML = `
+    <h2>Your Day Started!</h2>
+    <p>${randomEvent}</p>
+
+    <br>
+
+    <p>
+      Stress: ${Math.floor(Math.random()*100)}
+      <br>
+      Energy: ${Math.floor(Math.random()*100)}
+      <br>
+      Grades: ${Math.floor(Math.random()*100)}
+    </p>
+  `;
 }
 
-const c=t.key||window.history.state?.__TSR_key,
-r=c?s[c]:void 0;
-
-if(t.shouldScrollRestoration&&r&&typeof r=="object"&&Object.keys(r).length>0){
-
-for(const e in r){
-
-const o=r[e];
-
-if(!o||typeof o!="object") continue;
-
-const l=o.scrollX,
-i=o.scrollY;
-
-if(!(!Number.isFinite(l)||!Number.isFinite(i))){
-
-if(e==="window")
-window.scrollTo({top:i,left:l,behavior:t.behavior});
-
-else if(e){
-
-let n;
-
-try{
-n=document.querySelector(e)
-}catch{
-continue
+function showInfo(){
+  alert(
+    "Make choices throughout the day. Your stress, energy, and grades change depending on your actions."
+  );
 }
-
-n&&(n.scrollLeft=l,n.scrollTop=i)
-}
-}
-}
-return
-}
-
-const a=window.location.hash.split("#",2)[1];
-
-if(a){
-
-const e=window.history.state?.__hashScrollIntoViewOptions??!0;
-
-if(e){
-
-const o=document.getElementById(a);
-
-o&&o.scrollIntoView(e)
-}
-return
-}
-
-window.scrollTo({top:0,left:0,behavior:t.behavior})
-
-})({
-"storageKey":"tsr-scroll-restoration-v1_3",
-"shouldScrollRestoration":true
-});
-
-document.currentScript.remove()
 </script>
 
 </body>
 </html>
-```
